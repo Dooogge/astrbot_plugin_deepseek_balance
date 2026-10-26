@@ -1,0 +1,119 @@
+{
+  "api_key": {
+    "description": "DeepSeek API Key",
+    "type": "string",
+    "default": "",
+    "secret": true,
+    "obvious_hint": true,
+    "hint": "留空时自动复用 AstrBot 已配置的 DeepSeek 供应商 Key；填写后优先使用这里的值。"
+  },
+  "api_base": {
+    "description": "余额接口地址",
+    "type": "string",
+    "default": "https://api.deepseek.com/user/balance",
+    "hint": "一般不需要修改；只有使用自建反代时才需要改。"
+  },
+  "admin_only": {
+    "description": "仅管理员可用",
+    "type": "bool",
+    "default": true,
+    "hint": "关闭后任何人都能查询，余额信息会暴露给会话里的所有人。"
+  },
+  "intent_patterns": {
+    "description": "触发判断用的正则列表",
+    "type": "list",
+    "default": [
+      "余额",
+      "还剩多少",
+      "剩余多少",
+      "还有多少(钱|余额|饭)?",
+      "剩多少(钱|饭)?",
+      "还能撑(多久|几天|多长)",
+      "能撑(多久|几天)",
+      "够吃(多久|几天)",
+      "还能吃多久",
+      "大白饭",
+      "饭还够",
+      "没钱了",
+      "快没钱",
+      "要欠费",
+      "余额不足",
+      "查.{0,3}(余额|账户)",
+      "账户.{0,3}(余额|还有)"
+    ],
+    "hint": "命中任意一条就认为在问余额。写得越宽越容易误触发，比如「余额宝」。"
+  },
+  "group_require_at": {
+    "description": "群里需要 @ 才回答",
+    "type": "bool",
+    "default": true,
+    "hint": "关闭后群里任何人提到余额相关字眼都会触发，容易刷屏，不建议关。"
+  },
+  "reply_cooldown": {
+    "description": "同一会话冷却（秒）",
+    "type": "int",
+    "default": 20,
+    "slider": {
+      "min": 0,
+      "max": 300,
+      "step": 5
+    },
+    "hint": "冷却时间内同一会话不会重复回答，避免连问两次被刷屏。"
+  },
+  "cache_seconds": {
+    "description": "结果缓存时间（秒）",
+    "type": "int",
+    "default": 60,
+    "slider": {
+      "min": 0,
+      "max": 600,
+      "step": 10
+    },
+    "hint": "避免频繁调用接口；填 0 表示每次都实时查询。"
+  },
+  "timeout": {
+    "description": "请求超时（秒）",
+    "type": "int",
+    "default": 15,
+    "slider": {
+      "min": 5,
+      "max": 60,
+      "step": 1
+    }
+  },
+  "daily_cost": {
+    "description": "日均消耗兜底值（元/天）",
+    "type": "float",
+    "default": 0.5,
+    "hint": "本地采样不足时用这个值估算「还能撑几天」。填 0 表示不估算。"
+  },
+  "history_window_days": {
+    "description": "采样统计窗口（天）",
+    "type": "int",
+    "default": 7,
+    "slider": {
+      "min": 1,
+      "max": 30,
+      "step": 1
+    },
+    "hint": "只统计最近这些天的余额变化来算真实消耗速率。"
+  },
+  "tier_rich": {
+    "description": "「充足」语气阈值（元）",
+    "type": "float",
+    "default": 30.0,
+    "hint": "余额高于此值时，语气最欢快。"
+  },
+  "tier_low": {
+    "description": "「偏少」语气阈值（元）",
+    "type": "float",
+    "default": 10.0,
+    "hint": "余额低于此值时，语气开始担心。"
+  },
+  "tier_critical": {
+    "description": "「见底」语气阈值（元）",
+    "type": "float",
+    "default": 3.0,
+    "hint": "余额低于此值时，语气变得舍不得；低于 0.5 元直接进入「空了」。"
+  }
+}
